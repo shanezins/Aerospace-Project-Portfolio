@@ -2,8 +2,6 @@ clear
 clc
 close all
 
-% 2D 3DOF Rocket Takeoff Simulation with Thrust Vector Control
-
 % Target position
 x_target = -50;      % desired horizontal position, m
 z_target = 150;      % desired altitude, m

@@ -1,11 +1,6 @@
-% ============================================================
-% Plot Results for 2D 3DOF Rocket TVC Simulation
-% ============================================================
+
 % Run this script after running run_simulation.m
 
-% ------------------------------------------------------------
-% Project paths
-% ------------------------------------------------------------
 scriptDir = fileparts(mfilename('fullpath'));
 projectDir = fileparts(scriptDir);
 figuresDir = fullfile(projectDir, 'figures');
@@ -14,16 +9,12 @@ if ~exist(figuresDir, 'dir')
     mkdir(figuresDir)
 end
 
-% ------------------------------------------------------------
-% Extract data from Simulink output
-% ------------------------------------------------------------
+
 t_data = out.x_out.Time(:);
 x_data = out.x_out.Data(:);
 z_data = out.z_out.Data(:);
 
-% ------------------------------------------------------------
 % Final position error
-% ------------------------------------------------------------
 x_final = x_data(end);
 z_final = z_data(end);
 
@@ -38,9 +29,7 @@ fprintf('x error: %.3f m\n', x_error)
 fprintf('z error: %.3f m\n', z_error)
 fprintf('Total position error: %.3f m\n', total_error)
 
-% ------------------------------------------------------------
 % 1. X-Z trajectory plot
-% ------------------------------------------------------------
 figure
 plot(x_data, z_data, 'LineWidth', 2)
 hold on
@@ -60,9 +49,7 @@ ylim([0, max(z_data)+20])
 
 exportgraphics(gcf, fullfile(figuresDir, 'trajectory.png'), 'Resolution', 300)
 
-% ------------------------------------------------------------
 % 2. Position response plot
-% ------------------------------------------------------------
 figure
 plot(t_data, x_data, 'LineWidth', 2)
 hold on
@@ -78,9 +65,8 @@ grid on
 
 exportgraphics(gcf, fullfile(figuresDir, 'position_response.png'), 'Resolution', 300)
 
-% ------------------------------------------------------------
+
 % 3. Pitch response plot
-% ------------------------------------------------------------
 try
     theta_data = out.theta_out.Data(:);
 
@@ -107,9 +93,8 @@ catch
     disp('theta_out was not found, so pitch plot was skipped.')
 end
 
-% ------------------------------------------------------------
-% 4. Gimbal command plot, if available
-% ------------------------------------------------------------
+
+% 4. Gimbal command plot
 try
     delta_data = out.delta_out.Data(:);
 
@@ -126,9 +111,8 @@ catch
     disp('delta_out was not found, so gimbal plot was skipped.')
 end
 
-% ------------------------------------------------------------
-% 5. Thrust command plot, if available
-% ------------------------------------------------------------
+
+% 5. Thrust command plot
 try
     T_cmd_data = out.T_cmd_out.Data(:);
 
